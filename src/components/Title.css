@@ -1,0 +1,25 @@
+.Title {
+    width: 100vw;
+    height: 100vh;
+    z-index: 20;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+}
+
+.title-logo {
+    width: 50%;
+    height: 50%;
+}
+
+.btn-start {
+    font-family: 'Acme';
+    font-size: 3vw;
+    margin: 20px;
+    background-color: #0582c5;
+    border: 3px solid #1d1d1d;
+    color: #d8202c;
+}
+
