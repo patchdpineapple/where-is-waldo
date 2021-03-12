@@ -16,10 +16,16 @@ function App() {
     setShowGame(!showGame);
   };
 
+  const handleReturnToTitle = () => {
+    setShowTitle(!showTitle);
+    setShowGame(!showGame);
+  };
+
+
   return (
     <div className="App">
       {showTitle && <Title toggleShowTitle={toggleShowTitle} toggleShowGame={toggleShowGame} />}
-      {showGame && <Game />}
+      {showGame && <Game handleReturnToTitle={handleReturnToTitle}/>}
     </div>
   );
 }

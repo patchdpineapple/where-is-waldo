@@ -29,7 +29,7 @@ body {
 .btn {
   display: inline-block;
   background: #1d1d1d;
-  color: #f3f3f3;
+  color: white;
   border: none;
   padding: 10px 20px;
   margin: 5px;
@@ -40,8 +40,9 @@ body {
   font-family: inherit;
 }
 
-.btn:focus {
+.btn:hover, .btn:focus {
   outline: none;
+  opacity: .8;
 }
 
 .btn:active {
