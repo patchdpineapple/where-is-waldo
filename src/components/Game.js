@@ -5,24 +5,82 @@ import game_image from "../images/waldo_beach.jpg";
 import waldo from "../images/waldo_face.png";
 import odlaw from "../images/odlaw_face.png";
 import wizard from "../images/wizard_face.png";
+import characters from "../data/characters.js";
 
-function Popup({ coordsX, coordsY, onClosePopup}) {
+function Popup({ coordsX, coordsY, onClosePopup }) {
+  let marginTop = 100 + 1;
+  let marginLeft;
+  if(window.innerWidth >= 1024) {
+  marginLeft = (window.innerWidth - 1024) / 2 - 7;
+  } else marginLeft = (window.innerWidth - 1024) / 2 - 7;
+
+  const onSelectCharacter = (e, charname) => {
+    //check coordinates if valid
+    e.stopPropagation();
+    console.log("left:", marginLeft, "top:", marginTop);
+    const character = characters[charname];
+    let checkX = coordsX-marginLeft;
+    let checkY = coordsY-marginTop;
+    let validX, validY;
+   
+    if(checkX >= character.x && checkX <= character.x + 40) validX = true;
+    else validX = false;
+
+    if(checkY >= character.y && checkY <= character.y + 60) validY = true;
+    else validY = false;
+
+    onClosePopup(e);
+    
+    //if x and y coordinate is valid show correct feedback, else show popup to try again
+    if (validX && validY)
+      return alert("Nice! You found " + charname + "!");
+    else return alert("That's not " + charname + " keep searching");
+  };
+
   return (
     <>
       <div
         className="Popup"
-        style={{ position: "absolute", top: coordsY - 30, left: coordsX - 30 }}
+        style={{
+          position: "absolute",
+          top: coordsY - marginTop - 30,
+          left: coordsX - marginLeft - 30,
+        }}
         onClick={(e) => {
-          console.log('haha');
           onClosePopup(e);
         }}
-      ><i class="fas fa-times"></i></div>
-      <div className="Popup-menu"
-      style={{ position: "absolute", top: coordsY - 30, left: coordsX + 30 }}>
-        <button className="btn btn-waldo"><img className="btn-face btn-waldo-face" src={waldo} alt="Waldo" />Waldo</button>
-        <button className="btn btn-odlaw"><img className="btn-face btn-odlaw-face" src={odlaw} alt="Odlaw" />Odlaw</button>
-        <button className="btn btn-wizard"><img className="btn-face btn-wizard-face" src={wizard} alt="Wizard" />Wizard</button>
-
+      >
+        <i className="fas fa-times"></i>
+      </div>
+      <div
+        className="Popup-menu"
+        style={{
+          position: "absolute",
+          top: coordsY - marginTop - 30,
+          left: coordsX - marginLeft + 30,
+        }}
+      >
+        <button
+          className="btn btn-waldo"
+          onClick={(e) => onSelectCharacter(e, "Waldo")}
+        >
+          <img className="btn-face btn-waldo-face" src={waldo} alt="Waldo" />
+          Waldo
+        </button>
+        <button
+          className="btn btn-odlaw"
+          onClick={(e) => onSelectCharacter(e, "Odlaw")}
+        >
+          <img className="btn-face btn-odlaw-face" src={odlaw} alt="Odlaw" />
+          Odlaw
+        </button>
+        <button
+          className="btn btn-wizard"
+          onClick={(e) => onSelectCharacter(e, "Wizard")}
+        >
+          <img className="btn-face btn-wizard-face" src={wizard} alt="Wizard" />
+          Wizard
+        </button>
       </div>
     </>
   );
@@ -33,12 +91,16 @@ function Game({ handleReturnToTitle }) {
   const [coords, setCoords] = useState({ x: 0, y: 0 });
 
   const toggleShowPopup = (e) => {
+    //toggle popup menu
     e.stopPropagation();
     setShowPopup(!showPopup);
-  }
+  };
 
   const handleClickImage = (e) => {
-    console.log("coordinates", e.pageX, e.pageY)
+    //records new picked coordinate and opens popup menu
+    console.clear();
+    console.log(e);
+    console.log("coordinates", e.pageX, e.pageY);
     setCoords({ x: e.pageX, y: e.pageY });
     setShowPopup(true);
   };
@@ -63,7 +125,7 @@ function Game({ handleReturnToTitle }) {
           />
         </div>
         <div className="time-container">
-          <h2>00:00</h2>
+          <strong>00:00</strong>
         </div>
         <div className="characters-container">
           <div className="character">
@@ -78,6 +140,13 @@ function Game({ handleReturnToTitle }) {
         </div>
       </div>
       <div className="game-image-container">
+        {showPopup && (
+          <Popup
+            coordsX={coords.x}
+            coordsY={coords.y}
+            onClosePopup={toggleShowPopup}
+          />
+        )}
         <img
           className="game-image"
           src={game_image}
@@ -89,7 +158,6 @@ function Game({ handleReturnToTitle }) {
           }}
         />
       </div>
-      {showPopup && <Popup coordsX={coords.x} coordsY={coords.y} onClosePopup={toggleShowPopup} />}
     </div>
   );
 }
