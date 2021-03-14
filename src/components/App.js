@@ -25,7 +25,7 @@ function App() {
   return (
     <div className="App">
       {showTitle && <Title toggleShowTitle={toggleShowTitle} toggleShowGame={toggleShowGame} />}
-      {showGame && <Game handleReturnToTitle={handleReturnToTitle}/>}
+      {showGame && <Game handleReturnToTitle={handleReturnToTitle} />}
     </div>
   );
 }

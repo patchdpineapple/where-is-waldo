@@ -57,7 +57,7 @@ border: 1px solid #0582c5;
 }
 
 .img-found {
-    opacity: .4;
+    opacity: .2;
 }
 
 .game-image-container {
@@ -78,7 +78,7 @@ border: 1px solid #0582c5;
 
 
 
-/* Popup component */
+/* Popup */
 .Popup {
     width: 60px;
     height: 60px;
@@ -113,4 +113,24 @@ border: 1px solid #0582c5;
     border-radius: 50%;
     border: 1px solid #0582c5;
     margin-right: 5px;
+}
+
+/* Complete */
+.Complete {
+display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 40;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.msg-complete {
+    border: 10px solid black;
+    padding: 10px;
+    background-color: white;
 }
