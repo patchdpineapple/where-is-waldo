@@ -5,15 +5,27 @@ import game_image from "../images/waldo_beach.jpg";
 import waldo from "../images/waldo_face.png";
 import odlaw from "../images/odlaw_face.png";
 import wizard from "../images/wizard_face.png";
-import characters from "../data/characters.js";
+import Timer from "./Timer";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import db from "../index.js";
 
-function Complete() {
+function Complete({ onPlayAgain }) {
   //this component will show when the game is over
   return (
     <div className="Complete">
-      <h1 className="msg-complete">Nice! You found them all!</h1>
+      <div className="complete-container">
+        <h1 className="msg-complete">Nice! You found them all!</h1>
+        <button className="btn btn-play-again" onClick={onPlayAgain}>
+          Play again
+        </button>
+      </div>
     </div>
   );
+}
+
+function FindAgain () {
+
 }
 
 function Popup({
@@ -27,11 +39,33 @@ function Popup({
   let marginTop = 100 + 1;
   let marginLeft = (window.innerWidth - 1024) / 2 - 7;
 
-  const onSelectCharacter = (e, charname) => {
+  const getCharFromDatabase = async (charname) => {
+    let char;
+
+    await db
+      .collection("characters")
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          if (doc.id === charname) {
+            char = doc.data();
+          }
+        });
+      });
+
+    return char;
+  };
+
+  const onSelectCharacter = async (e, charname) => {
     //check coordinates if valid.
     e.stopPropagation();
+    onClosePopup(e);
     console.log("left:", marginLeft, "top:", marginTop);
-    const character = characters[charname];
+    const character = await getCharFromDatabase(charname);
+    console.clear();
+    console.log(character);
+
+    // const character = characters[charname];
     let checkX = coordsX - marginLeft;
     let checkY = coordsY - marginTop;
     let validX, validY;
@@ -42,7 +76,6 @@ function Popup({
     if (checkY >= character.y && checkY <= character.y + 60) validY = true;
     else validY = false;
 
-    onClosePopup(e);
 
     //if x and y coordinate is valid show correct feedback, else show popup to try again
     if (validX && validY) {
@@ -111,7 +144,13 @@ function Popup({
   );
 }
 
-function Game({ handleReturnToTitle }) {
+function Game({
+  handleReturnToTitle,
+  handleStartTime,
+  handlePauseTime,
+  handleResetTime,
+  elapsedTime,
+}) {
   //this is the main gameplay component
   const [showPopup, setShowPopup] = useState(false);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
@@ -133,11 +172,12 @@ function Game({ handleReturnToTitle }) {
 
   const resetGame = () => {
     //reset character portraits, time all screens
+    handleReturnToTitle();
     setShowComplete(false);
     setFoundWaldo(false);
     setFoundOdlaw(false);
     setFoundWizard(false);
-    handleReturnToTitle();
+    handleResetTime();
   };
 
   /* Game logic */
@@ -170,12 +210,6 @@ function Game({ handleReturnToTitle }) {
       default:
         break;
     }
-
-    // if(tempWaldo && tempOdlaw && tempWizard){
-    //   setShowComplete(true);
-    //   return alert("Good job! You found them all!");
-    // }else {
-    //   return alert("Nice! You found " + charName + "!");
   };
 
   const handleClickImage = (e) => {
@@ -191,11 +225,11 @@ function Game({ handleReturnToTitle }) {
     if (handleCompleteGame()) {
       setShowComplete(true);
     }
-  });
+  }, [handleCompleteGame]);
 
   return (
     <div className="Game">
-      {showComplete && <Complete />}
+      {showComplete && <Complete onPlayAgain={resetGame} />}
       <div
         className="game-status-bar"
         onClick={(e) => {
@@ -213,9 +247,7 @@ function Game({ handleReturnToTitle }) {
             alt="Where's Waldo Logo"
           />
         </div>
-        <div className="time-container">
-          <strong>00:00</strong>
-        </div>
+        <Timer handleStartTime={handleStartTime} elapsedTime={elapsedTime} />
         <div className="characters-container">
           <div className="character">
             <img

@@ -1,4 +1,7 @@
-//coords of characters from 0,0 based on image size
+
+
+
+// coords of characters from 0,0 based on image size
 const characters = {
     Waldo: {
         name: "Waldo",

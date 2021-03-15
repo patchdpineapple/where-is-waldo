@@ -21,8 +21,8 @@
 }
 
 .time-container {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     border: 2px solid #d8202c;
     display:flex;
     justify-content: center;
@@ -126,11 +126,24 @@ display: flex;
   position: fixed;
   top: 0;
   bottom: 0;
-  margin: auto;
+  
 }
 
-.msg-complete {
-    border: 10px solid black;
-    padding: 10px;
+.complete-container {
+    border-radius: 20px;
+    padding: 40px;
     background-color: white;
+    color: #d8202c;
+    display: flex;
+    flex-flow: column;
+  justify-content: center;
+  align-items: center;
 }
+
+.btn-play-again {
+    margin-top: 20px;
+    background-color: #0582c5;
+    border: 3px solid #1d1d1d;
+    color: #d8202c;
+}
+

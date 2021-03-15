@@ -1,3 +1,15 @@
 .Timer {
-    
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+    height: 90px;
+    border: 2px solid #d8202c;
+    border-radius: 50%;
+
+}
+
+#time {
+    font-size: 20px;
+    font-weight: 100;
 }
