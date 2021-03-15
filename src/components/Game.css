@@ -114,13 +114,23 @@ border: 1px solid #0582c5;
     border: 1px solid #0582c5;
     margin-right: 5px;
 }
+/* Find Again*/
+.FindAgain {
+    display: none;
+    color: #d8202c;
+    background: rgba(255, 255, 255, 0.541);
+    border-radius: 20px;
+    padding: 10px;
+    z-index: 40;
+    font-size: 30px;
+}
 
 /* Complete */
 .Complete {
 display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 40;
+  z-index: 50;
   width: 100vw;
   height: 100vh;
   position: fixed;

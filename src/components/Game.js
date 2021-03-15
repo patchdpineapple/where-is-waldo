@@ -10,6 +10,8 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import db from "../index.js";
 
+let timeoutFindAgain;
+
 function Complete({ onPlayAgain }) {
   //this component will show when the game is over
   return (
@@ -25,7 +27,16 @@ function Complete({ onPlayAgain }) {
 }
 
 function FindAgain () {
+const FindAgainStyle = {
+  position: "fixed",
+  
 
+}
+  return (
+    <div className="FindAgain" id="FindAgain" style={FindAgainStyle}>
+      KEEP SEARCHING
+    </div>
+  )
 }
 
 function Popup({
@@ -34,6 +45,7 @@ function Popup({
   onClosePopup,
   handleFoundCharacter,
   found,
+  toggleShowFindAgain,
 }) {
   //this component will show when the user clicks on the image
   let marginTop = 100 + 1;
@@ -80,7 +92,16 @@ function Popup({
     //if x and y coordinate is valid show correct feedback, else show popup to try again
     if (validX && validY) {
       handleFoundCharacter(charname);
-    } else return alert("That's not " + charname + " keep searching");
+    } else {
+      document.getElementById("FindAgain").textContent = `That's not ${charname}. Keep searching!`;
+      document.getElementById("FindAgain").style.display = "block";
+      document.getElementById("FindAgain").style.top = "120px";
+      document.getElementById("FindAgain").style.left = (window.innerWidth/2).toString();
+      timeoutFindAgain = setTimeout(()=>{
+        document.getElementById("FindAgain").style.display = "none";
+      }, 3000);
+      // return alert("That's not " + charname + " keep searching");
+    }
   };
 
   return (
@@ -158,6 +179,8 @@ function Game({
   const [foundOdlaw, setFoundOdlaw] = useState(false);
   const [foundWizard, setFoundWizard] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
+  const [showFindAgain, setShowFindAgain] = useState(true);
+
 
   /* toggle functions*/
   const toggleShowPopup = (e) => {
@@ -170,6 +193,10 @@ function Game({
     setShowComplete(!showComplete);
   };
 
+   const toggleShowFindAgain = () => {
+    setShowFindAgain(!showFindAgain);
+  };
+
   const resetGame = () => {
     //reset character portraits, time all screens
     handleReturnToTitle();
@@ -177,6 +204,7 @@ function Game({
     setFoundWaldo(false);
     setFoundOdlaw(false);
     setFoundWizard(false);
+    clearTimeout(timeoutFindAgain);
     handleResetTime();
   };
 
@@ -225,11 +253,12 @@ function Game({
     if (handleCompleteGame()) {
       setShowComplete(true);
     }
-  }, [handleCompleteGame]);
+  });
 
   return (
     <div className="Game">
       {showComplete && <Complete onPlayAgain={resetGame} />}
+      
       <div
         className="game-status-bar"
         onClick={(e) => {
@@ -275,6 +304,7 @@ function Game({
         </div>
       </div>
       <div className="game-image-container">
+      {showFindAgain && <FindAgain />}
         {showPopup && (
           <Popup
             coordsX={coords.x}
@@ -287,6 +317,7 @@ function Game({
               Odlaw: foundOdlaw,
               Wizard: foundWizard,
             }}
+            toggleShowFindAgain={toggleShowFindAgain}
           />
         )}
         <img
