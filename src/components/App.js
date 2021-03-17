@@ -23,8 +23,8 @@ function App() {
   };
 
   const handleReturnToTitle = () => {
-    setShowTitle(!showTitle);
-    setShowGame(!showGame);
+    setShowTitle(true);
+    setShowGame(false);
   };
 
   return (

@@ -10,7 +10,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import db from "../index.js";
 
-let timeoutFindAgain;
+let timeoutFindAgain; //used to display Find Again prompt for a certain period of time
 let timerInterval;
 let elapsedTime;
 
@@ -316,9 +316,10 @@ function Game({ handleReturnToTitle, toggleShowGame, toggleShowLeaderboard }) {
     //checks if game is complete
     if (handleCompleteGame()) {
       setTimerActive(false);
+      clearTimeout(timeoutFindAgain);
       setShowComplete(true);
-      console.log("timer should be off");
     }
+   
   });
 
   return (

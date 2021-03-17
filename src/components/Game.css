@@ -141,6 +141,7 @@
   position: fixed;
   top: 0;
   bottom: 0;
+  background-color: #1d1d1d75;
 }
 
 .complete-container {
