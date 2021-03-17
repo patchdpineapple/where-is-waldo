@@ -6,12 +6,14 @@
     flex-flow: column;
     justify-content: center;
     align-items: center;
+    overflow-y: scroll;
+    overflow-x: scroll;
 }
 
 .msg-top-score {
-    font-family: "Acme";
+    font-family: "Acme", Arial;
     font-size: 10vw;
-    margin: 20px;
+    margin: 5px;
     color: #d8202c;
     text-shadow: 0 10px 1px #0582c5;
 }
@@ -20,8 +22,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-
 }
 
 .msg-name, .msg-time {
@@ -41,6 +41,6 @@
     border: 3px solid #0582c5;
     color: #d8202c;
     padding: 5px;
-    font-family: "Acme";
+    font-family: "Acme", Arial;
 }
 

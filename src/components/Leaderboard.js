@@ -12,6 +12,10 @@ function Scores({ index, name, time }) {
 }
 
 function Leaderboard({ handleReturnToTitle, handleShowLeaderboard }) {
+  let scoresList = highscores.sort((a, b) => {return a.total-b.total});
+
+  let filteredScores = scoresList.slice(0,10);
+
   const handleReplay = () => {
     handleShowLeaderboard();
     handleReturnToTitle();
@@ -21,7 +25,7 @@ function Leaderboard({ handleReturnToTitle, handleShowLeaderboard }) {
     <div className="Leaderboard">
       <h1 className="msg-top-score">TOP SCORES</h1>
       <div className="score-list">
-        {highscores.map((score, i) => {
+        {filteredScores.map((score, i) => {
           return (
             <Scores key={i} index={i} name={score.name} time={score.time} />
           );

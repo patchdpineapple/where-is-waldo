@@ -158,11 +158,16 @@
   
 }
 
+.msg-your-time {
+  font-size: 36px;
+  color: red;
+}
+
 .btn-play-again {
   margin-top: 20px;
   background-color: white;
   border: 3px solid #0582c5;
   color: #d8202c;
   padding: 5px;
-  font-family: "Acme";
+  font-family: "Acme", Arial;
 }

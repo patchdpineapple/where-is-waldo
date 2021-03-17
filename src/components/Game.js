@@ -9,6 +9,8 @@ import Timer from "./Timer";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import db from "../index.js";
+import highscores from "../data/highscores";
+
 
 let timeoutFindAgain; //used to display Find Again prompt for a certain period of time
 let timerInterval;
@@ -27,14 +29,19 @@ function Complete({ onPlayAgain, yourTime, totalTime, toggleShowGame, toggleShow
     <div className="Complete">
       <div className="complete-container">
         <p className="msg-complete">Nice! You found them all!</p>
-        <h2 className="msg-time">Your time: <span>{yourTime}</span></h2>
+        <p className="msg-your-time">Your time: {yourTime}</p>
         <p className="msg-total">{`time in ms: ${totalTime}`}</p>
         <form onSubmit={()=>{
           console.log(`submitted score of ${document.getElementById("playername").value}`);
+          highscores.push({
+            name: document.getElementById("playername").value,
+            time: yourTime,
+            total: totalTime
+          })
           handleShowLeaderboard();
         }}>
   <label htmlFor="playername" >Input name &nbsp;</label>
-          <input type="text" id="playername" placeholder="name" required/>
+          <input type="text" id="playername" name="playername" placeholder="name" maxlength="25" required/>
           <button type="submit" className="btn btn-play-again">
             Submit
           </button>
