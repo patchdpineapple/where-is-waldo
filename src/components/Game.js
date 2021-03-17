@@ -12,18 +12,42 @@ import db from "../index.js";
 
 let timeoutFindAgain;
 let timerInterval;
+let elapsedTime;
 
-function Complete({ onPlayAgain, yourTime }) {
+function Complete({ onPlayAgain, yourTime, totalTime, toggleShowGame, toggleShowComplete, toggleShowLeaderboard}) {
   //this component will show when the game is over
+
+  const handleShowLeaderboard = () => {
+    toggleShowComplete();
+    toggleShowGame();
+    toggleShowLeaderboard();
+  }
+
   return (
     <div className="Complete">
       <div className="complete-container">
-  <h1 className="msg-complete">Nice! You found them all!</h1>
-  <h1 className="msg-time">{`Your time: ${yourTime}`}</h1>
-
-        <button className="btn btn-play-again" onClick={onPlayAgain}>
-          Play again
-        </button>
+        <p className="msg-complete">Nice! You found them all!</p>
+        <h2 className="msg-time">Your time: <span>{yourTime}</span></h2>
+        <p className="msg-total">{`time in ms: ${totalTime}`}</p>
+        <form onSubmit={()=>{
+          console.log(`submitted score of ${document.getElementById("playername").value}`);
+          handleShowLeaderboard();
+        }}>
+  <label htmlFor="playername" >Input name &nbsp;</label>
+          <input type="text" id="playername" placeholder="name" required/>
+          <button type="submit" className="btn btn-play-again">
+            Submit
+          </button>
+        </form>
+        <div>
+          <button className="btn btn-play-again" onClick={onPlayAgain}>
+            Play again
+          </button>
+          <button className="btn btn-play-again" onClick={handleShowLeaderboard}>
+            Leaderboards
+          </button>
+         
+        </div>
       </div>
     </div>
   );
@@ -166,9 +190,7 @@ function Popup({
   );
 }
 
-function Game({
-  handleReturnToTitle,
-}) {
+function Game({ handleReturnToTitle, toggleShowGame, toggleShowLeaderboard }) {
   //this is the main gameplay component
   const [showPopup, setShowPopup] = useState(false);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
@@ -246,13 +268,8 @@ function Game({
 
   /* TIMER */
   const [timeDisplay, setTimeDisplay] = useState("00:00:00");
-  const [timeRecord, setTimeRecord] = useState("00:00:00");
-  const [showTimer, setShowTimer] = useState(true);
-  let timeRec = "00:00:00";
+  const [timerActive, setTimerActive] = useState(true);
   let startTime;
-  let elapsedTime;
- 
- 
 
   function timeToString(time) {
     let diffInHrs = time / 3600000;
@@ -286,41 +303,36 @@ function Game({
       elapsedTime = Date.now() - startTime;
       print(timeToString(elapsedTime));
     }, 10);
-    console.log("Interval ID: ",timerInterval);
+    console.log("Interval ID: ", timerInterval);
   }
 
-  function pause(){
+  function pause() {
     clearInterval(timerInterval);
-    console.log("Interval ID: ",timerInterval);
-
+    console.log("Interval ID: ", timerInterval);
   }
-
-  function reset(){
-      clearInterval(timerInterval);
-      elapsedTime = 0;
-  }
-  
 
   /* use effect */
-
-
   useEffect(() => {
     //checks if game is complete
     if (handleCompleteGame()) {
-      clearInterval(timerInterval);
-      clearInterval(timerInterval);
-      clearInterval(timerInterval);
-      timeRec="00:15:00";
-      setShowTimer(false);
+      setTimerActive(false);
       setShowComplete(true);
-      console.log("timer should be off")
+      console.log("timer should be off");
     }
-  },[timerInterval, foundWaldo, foundOdlaw, foundWizard, handleCompleteGame]);
+  });
 
   return (
     <div className="Game">
-      {showComplete && <Complete onPlayAgain={resetGame} yourTime={timeDisplay}/>}
-
+      {showComplete && (
+        <Complete
+          onPlayAgain={resetGame}
+          yourTime={timeDisplay}
+          totalTime={elapsedTime}
+          toggleShowGame={toggleShowGame}
+          toggleShowComplete={toggleShowComplete}
+          toggleShowLeaderboard={toggleShowLeaderboard}
+        />
+      )}
       <div
         className="game-status-bar"
         onClick={(e) => {
@@ -339,7 +351,12 @@ function Game({
           />
         </div>
         <div className="timer-container">
-        <Timer time={timeDisplay} timerOn={showTimer} startTimer={start} pauseTimer={pause} />
+          <Timer
+            time={timeDisplay}
+            timerOn={timerActive}
+            startTimer={start}
+            pauseTimer={pause}
+          />
         </div>
         <div className="characters-container">
           <div className="character">

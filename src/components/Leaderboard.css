@@ -1,0 +1,46 @@
+.Leaderboard {
+    width: 100vw;
+    height: 100vh;
+    z-index: 50;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.msg-top-score {
+    font-family: "Acme";
+    font-size: 10vw;
+    margin: 20px;
+    color: #d8202c;
+    text-shadow: 0 10px 1px #0582c5;
+}
+
+.Scores {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+
+}
+
+.msg-name, .msg-time {
+    font-size: 20px;
+    margin: 5px;
+}
+
+.msg-name {
+    min-width: 5vw;
+    max-width: 20vw;
+    overflow: hidden;
+}
+
+.btn-top-replay {
+    margin-top: 20px;
+    background-color: white;
+    border: 3px solid #0582c5;
+    color: #d8202c;
+    padding: 5px;
+    font-family: "Acme";
+}
+
