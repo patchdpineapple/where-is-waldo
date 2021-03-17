@@ -11,13 +11,16 @@ import "firebase/firestore";
 import db from "../index.js";
 
 let timeoutFindAgain;
+let timerInterval;
 
-function Complete({ onPlayAgain }) {
+function Complete({ onPlayAgain, yourTime }) {
   //this component will show when the game is over
   return (
     <div className="Complete">
       <div className="complete-container">
-        <h1 className="msg-complete">Nice! You found them all!</h1>
+  <h1 className="msg-complete">Nice! You found them all!</h1>
+  <h1 className="msg-time">{`Your time: ${yourTime}`}</h1>
+
         <button className="btn btn-play-again" onClick={onPlayAgain}>
           Play again
         </button>
@@ -26,17 +29,12 @@ function Complete({ onPlayAgain }) {
   );
 }
 
-function FindAgain () {
-const FindAgainStyle = {
-  position: "fixed",
-  
-
-}
+function FindAgain() {
   return (
-    <div className="FindAgain" id="FindAgain" style={FindAgainStyle}>
+    <div className="FindAgain" id="FindAgain">
       KEEP SEARCHING
     </div>
-  )
+  );
 }
 
 function Popup({
@@ -72,10 +70,10 @@ function Popup({
     //check coordinates if valid.
     e.stopPropagation();
     onClosePopup(e);
-    console.log("left:", marginLeft, "top:", marginTop);
+    // console.log("left:", marginLeft, "top:", marginTop);
     const character = await getCharFromDatabase(charname);
-    console.clear();
-    console.log(character);
+    // console.clear();
+    // console.log(character);
 
     // const character = characters[charname];
     let checkX = coordsX - marginLeft;
@@ -88,16 +86,19 @@ function Popup({
     if (checkY >= character.y && checkY <= character.y + 60) validY = true;
     else validY = false;
 
-
     //if x and y coordinate is valid show correct feedback, else show popup to try again
     if (validX && validY) {
       handleFoundCharacter(charname);
     } else {
-      document.getElementById("FindAgain").textContent = `That's not ${charname}. Keep searching!`;
+      document.getElementById(
+        "FindAgain"
+      ).textContent = `That's not ${charname}. Keep searching!`;
       document.getElementById("FindAgain").style.display = "block";
       document.getElementById("FindAgain").style.top = "120px";
-      document.getElementById("FindAgain").style.left = (window.innerWidth/2).toString();
-      timeoutFindAgain = setTimeout(()=>{
+      document.getElementById("FindAgain").style.left = (
+        window.innerWidth / 2
+      ).toString();
+      timeoutFindAgain = setTimeout(() => {
         document.getElementById("FindAgain").style.display = "none";
       }, 3000);
       // return alert("That's not " + charname + " keep searching");
@@ -167,10 +168,6 @@ function Popup({
 
 function Game({
   handleReturnToTitle,
-  handleStartTime,
-  handlePauseTime,
-  handleResetTime,
-  elapsedTime,
 }) {
   //this is the main gameplay component
   const [showPopup, setShowPopup] = useState(false);
@@ -180,7 +177,6 @@ function Game({
   const [foundWizard, setFoundWizard] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
   const [showFindAgain, setShowFindAgain] = useState(true);
-
 
   /* toggle functions*/
   const toggleShowPopup = (e) => {
@@ -193,7 +189,7 @@ function Game({
     setShowComplete(!showComplete);
   };
 
-   const toggleShowFindAgain = () => {
+  const toggleShowFindAgain = () => {
     setShowFindAgain(!showFindAgain);
   };
 
@@ -205,7 +201,6 @@ function Game({
     setFoundOdlaw(false);
     setFoundWizard(false);
     clearTimeout(timeoutFindAgain);
-    handleResetTime();
   };
 
   /* Game logic */
@@ -242,30 +237,97 @@ function Game({
 
   const handleClickImage = (e) => {
     //records new picked coordinate and opens popup menu
-    console.clear();
-    console.log(e);
-    console.log("coordinates", e.pageX, e.pageY);
+    // console.clear();
+    // console.log(e);
+    // console.log("coordinates", e.pageX, e.pageY);
     setCoords({ x: e.pageX, y: e.pageY });
     setShowPopup(true);
   };
 
+  /* TIMER */
+  const [timeDisplay, setTimeDisplay] = useState("00:00:00");
+  const [timeRecord, setTimeRecord] = useState("00:00:00");
+  const [showTimer, setShowTimer] = useState(true);
+  let timeRec = "00:00:00";
+  let startTime;
+  let elapsedTime;
+ 
+ 
+
+  function timeToString(time) {
+    let diffInHrs = time / 3600000;
+    let hh = Math.floor(diffInHrs);
+
+    let diffInMin = (diffInHrs - hh) * 60;
+    let mm = Math.floor(diffInMin);
+
+    let diffInSec = (diffInMin - mm) * 60;
+    let ss = Math.floor(diffInSec);
+
+    let diffInMs = (diffInSec - ss) * 100;
+    let ms = Math.floor(diffInMs);
+
+    let formattedMM = mm.toString().padStart(2, "0");
+    let formattedSS = ss.toString().padStart(2, "0");
+    let formattedMS = ms.toString().padStart(2, "0");
+
+    return `${formattedMM}:${formattedSS}:${formattedMS}`;
+  }
+
+  function print(txt) {
+    // document.getElementById("time").innerHTML = txt;
+    setTimeDisplay(txt);
+  }
+
+  function start() {
+    console.log("timer started");
+    startTime = Date.now();
+    timerInterval = setInterval(function printTime() {
+      elapsedTime = Date.now() - startTime;
+      print(timeToString(elapsedTime));
+    }, 10);
+    console.log("Interval ID: ",timerInterval);
+  }
+
+  function pause(){
+    clearInterval(timerInterval);
+    console.log("Interval ID: ",timerInterval);
+
+  }
+
+  function reset(){
+      clearInterval(timerInterval);
+      elapsedTime = 0;
+  }
+  
+
+  /* use effect */
+
+
   useEffect(() => {
+    //checks if game is complete
     if (handleCompleteGame()) {
+      clearInterval(timerInterval);
+      clearInterval(timerInterval);
+      clearInterval(timerInterval);
+      timeRec="00:15:00";
+      setShowTimer(false);
       setShowComplete(true);
+      console.log("timer should be off")
     }
-  });
+  },[timerInterval, foundWaldo, foundOdlaw, foundWizard, handleCompleteGame]);
 
   return (
     <div className="Game">
-      {showComplete && <Complete onPlayAgain={resetGame} />}
-      
+      {showComplete && <Complete onPlayAgain={resetGame} yourTime={timeDisplay}/>}
+
       <div
         className="game-status-bar"
         onClick={(e) => {
-          console.clear();
-          console.log(e);
-          console.log("Page", e.pageX, e.pageY);
-          console.log("Screen", e.screenX, e.screenY);
+          // console.clear();
+          // console.log(e);
+          // console.log("Page", e.pageX, e.pageY);
+          // console.log("Screen", e.screenX, e.screenY);
         }}
       >
         <div className="game-logo-container">
@@ -276,7 +338,9 @@ function Game({
             alt="Where's Waldo Logo"
           />
         </div>
-        <Timer handleStartTime={handleStartTime} elapsedTime={elapsedTime} />
+        <div className="timer-container">
+        <Timer time={timeDisplay} timerOn={showTimer} startTimer={start} pauseTimer={pause} />
+        </div>
         <div className="characters-container">
           <div className="character">
             <img
@@ -304,7 +368,7 @@ function Game({
         </div>
       </div>
       <div className="game-image-container">
-      {showFindAgain && <FindAgain />}
+        {showFindAgain && <FindAgain />}
         {showPopup && (
           <Popup
             coordsX={coords.x}

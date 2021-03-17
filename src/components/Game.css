@@ -1,133 +1,138 @@
 .Game {
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
-    align-items: center
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .game-status-bar {
-    background-color: white;
-    box-shadow: 0px 5px 10px -6px #1d1d1d;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100vw;
-    position: fixed;
-    z-index: 30;
-}   
-
-.game-status-bar, .game-logo-container, .time-container, .characters-container {
-    padding: 5px;
+  background-color: white;
+  box-shadow: 0px 5px 10px -6px #1d1d1d;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vw;
+  position: fixed;
+  z-index: 30;
+  padding-top: 5px;
 }
 
+
+
 .time-container {
-    width: 80px;
-    height: 80px;
-    border: 2px solid #d8202c;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50px;
+  width: 100px;
+  height: 50px;
+  border: 2px solid #d8202c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
 }
 
 .game-logo {
-    max-width: 100px;
-    max-height: 100px;
+  max-width: 100px;
+  max-height: 100px;
+  cursor: pointer;
+
+}
+
+.timer-container {
+  width: 90px;
+  height: 50px;
 }
 
 .characters-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 20%;
-    justify-self: flex-end;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 20%;
 }
 
 .character {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 .img-face {
-max-width: 100%;
-max-height: 100%;
-border-radius: 50%;
-border: 1px solid #0582c5;
-
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 50%;
+  border: 1px solid #0582c5;
 }
 
 .img-found {
-    opacity: .2;
+  opacity: 0.2;
 }
 
 .game-image-container {
-    position: relative;
-    background-color: red;
-    overflow: hidden;
-    margin-top: 100px;
-    display: flex;
-    justify-content: center;
+  position: relative;
+  background-color: red;
+  overflow: hidden;
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
 }
 
 .game-image {
-    /* box-shadow: 0px 5px 5px 5px lightgray; */
-    max-width: 1024px;
-    max-height: 768px;
-    cursor: pointer;
+  /* box-shadow: 0px 5px 5px 5px lightgray; */
+  max-width: 1024px;
+  max-height: 768px;
+  cursor: pointer;
 }
-
-
 
 /* Popup */
 .Popup {
-    width: 60px;
-    height: 60px;
-    border: 5px solid #0582c5;;
-    background-color: rgba(211, 211, 211, 0.39);
-    z-index: 20;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #d8202c;
+  width: 60px;
+  height: 60px;
+  border: 5px solid #0582c5;
+  background-color: rgba(211, 211, 211, 0.39);
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #d8202c;
 }
 
 .Popup-menu {
-    display: flex;
-    flex-flow: column;
-    background-color: #0582c5;
+  display: flex;
+  flex-flow: column;
+  background-color: #0582c5;
 }
 
-.btn-waldo, .btn-odlaw, .btn-wizard {
-    background-color: #d8202c;
-    height: 50px;
-    width: 100px;
-    overflow: hidden;
-    display:flex;
-    justify-content: center;
-    align-items: center;
+.btn-waldo,
+.btn-odlaw,
+.btn-wizard {
+  background-color: #d8202c;
+  height: 50px;
+  width: 100px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-face {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 50%;
-    border: 1px solid #0582c5;
-    margin-right: 5px;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 50%;
+  border: 1px solid #0582c5;
+  margin-right: 5px;
 }
 /* Find Again*/
 .FindAgain {
-    display: none;
-    color: #d8202c;
-    background: rgba(255, 255, 255, 0.541);
-    border-radius: 20px;
-    padding: 10px;
-    z-index: 40;
-    font-size: 30px;
+  display: none;
+  color: #d8202c;
+  background: rgba(255, 255, 255, 0.541);
+  border-radius: 20px;
+  padding: 10px;
+  z-index: 40;
+  font-size: 30px;
+  position: fixed;
 }
 
 /* Complete */
 .Complete {
-display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   z-index: 50;
@@ -136,24 +141,27 @@ display: flex;
   position: fixed;
   top: 0;
   bottom: 0;
-  
 }
 
 .complete-container {
-    border-radius: 20px;
-    padding: 40px;
-    background-color: white;
-    color: #d8202c;
-    display: flex;
-    flex-flow: column;
+  border: 5px solid #0582c5;
+  border-radius: 20px;
+  padding: 40px;
+  background-color: white;
+  color: black;
+  display: flex;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
+  box-shadow: 0px 5px 10px 1px #1d1d1d;
+  
 }
 
 .btn-play-again {
-    margin-top: 20px;
-    background-color: #0582c5;
-    border: 3px solid #1d1d1d;
-    color: #d8202c;
+  margin-top: 20px;
+  background-color: white;
+  border: 3px solid #0582c5;
+  color: #d8202c;
+  padding: 5px;
+  font-family: "Acme";
 }
-
