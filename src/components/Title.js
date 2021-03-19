@@ -2,11 +2,10 @@ import React from "react";
 import "./Title.css";
 import logo from "../images/waldo_logo.png";
 
-function Title({ toggleShowTitle, toggleShowGame, handleStartTime }) {
+function Title({ toggleShowTitle, toggleShowGame }) {
   const onStart = () => {
     toggleShowTitle();
     toggleShowGame();
-    // handleStartTime();
   };
   return (
     <div className="Title">

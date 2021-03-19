@@ -15,7 +15,6 @@ const firebaseConfig = {
 };
 
 var app = firebase.initializeApp(firebaseConfig);
-
 const db = firebase.firestore();
 
 ReactDOM.render(

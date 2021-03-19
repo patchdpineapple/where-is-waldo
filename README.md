@@ -1,12 +1,19 @@
 # Project: Where's Waldo
 
-This is the final project of the test driven development part of the Javascript course from The Odin Project.\
+This is the final project of the JavaScript and the Backend section of the Javascript course from The Odin Project.\
 
 ### How to play
-
+Pressing Start in the title screen will start the game\
+Click on the image to select a location\
+Choose the character you are searching for from the popup menu\
+Click on the logo at the upperleft corner of the game screen to restart game\
+When the game is over, click Play again to restart or leadberboards to see the top scores\
+You can enter your name and click submit to qualify for leaderboards\
+In the leaderboards screen, click Play again to return to title screen\
 
 #### Rules
-
+There are 3 characters to find: Waldo, Odlaw and Wizard\
+Find the 3 characters in the image to complete the game\
 
 ### How to run the app
 
@@ -32,3 +39,6 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
+
+#### Live preview
+Click [here](http://patchdpineapple.github.io/where-is-waldo) for the live preview of this project hosted on github pages

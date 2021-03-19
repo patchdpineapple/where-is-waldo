@@ -9,30 +9,34 @@ import Timer from "./Timer";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import db from "../index.js";
-import highscores from "../data/highscores";
-
 
 let timeoutFindAgain; //used to display Find Again prompt for a certain period of time
 let timerInterval;
 let elapsedTime;
 
-function Complete({ onPlayAgain, yourTime, totalTime, toggleShowGame, toggleShowComplete, toggleShowLeaderboard}) {
+function Complete({
+  onPlayAgain,
+  yourTime,
+  totalTime,
+  toggleShowGame,
+  toggleShowComplete,
+  toggleShowLeaderboard,
+}) {
   //this component will show when the game is over
 
   const handleShowLeaderboard = () => {
     toggleShowComplete();
     toggleShowGame();
     toggleShowLeaderboard();
-  }
+  };
 
   const recordScore = async (name, time, total) => {
-
-    await db.collection('highscores').add({
+    await db.collection("highscores").add({
       name: name,
       time: time,
-      total: total
+      total: total,
     });
-  }
+  };
 
   return (
     <div className="Complete">
@@ -40,19 +44,22 @@ function Complete({ onPlayAgain, yourTime, totalTime, toggleShowGame, toggleShow
         <p className="msg-complete">Nice! You found them all!</p>
         <p className="msg-your-time">Your time: {yourTime}</p>
         <p className="msg-total">{`time in ms: ${totalTime}`}</p>
-        <form onSubmit={()=>{
-          console.log(`submitted score of ${document.getElementById("playername").value}`);
-          let getName = document.getElementById("playername").value;
-          // highscores.push({
-          //   name: document.getElementById("playername").value,
-          //   time: yourTime,
-          //   total: totalTime
-          // })
-          recordScore(getName, yourTime, totalTime);
-          handleShowLeaderboard();
-        }}>
-  <label htmlFor="playername" >Input name &nbsp;</label>
-          <input type="text" id="playername" name="playername" placeholder="name" maxLength="25" required/>
+        <form
+          onSubmit={() => {
+            let getName = document.getElementById("playername").value;
+            recordScore(getName, yourTime, totalTime);
+            handleShowLeaderboard();
+          }}
+        >
+          <label htmlFor="playername">Input name &nbsp;</label>
+          <input
+            type="text"
+            id="playername"
+            name="playername"
+            placeholder="name"
+            maxLength="25"
+            required
+          />
           <button type="submit" className="btn btn-play-again">
             Submit
           </button>
@@ -61,10 +68,12 @@ function Complete({ onPlayAgain, yourTime, totalTime, toggleShowGame, toggleShow
           <button className="btn btn-play-again" onClick={onPlayAgain}>
             Play again
           </button>
-          <button className="btn btn-play-again" onClick={handleShowLeaderboard}>
+          <button
+            className="btn btn-play-again"
+            onClick={handleShowLeaderboard}
+          >
             Leaderboards
           </button>
-         
         </div>
       </div>
     </div>
@@ -111,12 +120,8 @@ function Popup({
     //check coordinates if valid.
     e.stopPropagation();
     onClosePopup(e);
-    // console.log("left:", marginLeft, "top:", marginTop);
     const character = await getCharFromDatabase(charname);
-    // console.clear();
-    // console.log(character);
 
-    // const character = characters[charname];
     let checkX = coordsX - marginLeft;
     let checkY = coordsY - marginTop;
     let validX, validY;
@@ -249,7 +254,7 @@ function Game({ handleReturnToTitle, toggleShowGame, toggleShowLeaderboard }) {
       setTimerActive(false);
       clearTimeout(timeoutFindAgain);
       setShowComplete(true);
-    } 
+    }
   };
 
   const handleFoundCharacter = (charName) => {
@@ -278,9 +283,6 @@ function Game({ handleReturnToTitle, toggleShowGame, toggleShowLeaderboard }) {
 
   const handleClickImage = (e) => {
     //records new picked coordinate and opens popup menu
-    // console.clear();
-    // console.log(e);
-    // console.log("coordinates", e.pageX, e.pageY);
     setCoords({ x: e.pageX, y: e.pageY });
     setShowPopup(true);
   };
@@ -316,18 +318,16 @@ function Game({ handleReturnToTitle, toggleShowGame, toggleShowLeaderboard }) {
   }
 
   function start() {
-    console.log("timer started");
+    //starts timer by recording interval every 10ms
     startTime = Date.now();
     timerInterval = setInterval(function printTime() {
       elapsedTime = Date.now() - startTime;
       print(timeToString(elapsedTime));
     }, 10);
-    console.log("Interval ID: ", timerInterval);
   }
 
   function pause() {
     clearInterval(timerInterval);
-    console.log("Interval ID: ", timerInterval);
   }
 
   /* use effect */
@@ -348,15 +348,7 @@ function Game({ handleReturnToTitle, toggleShowGame, toggleShowLeaderboard }) {
           toggleShowLeaderboard={toggleShowLeaderboard}
         />
       )}
-      <div
-        className="game-status-bar"
-        onClick={(e) => {
-          // console.clear();
-          // console.log(e);
-          // console.log("Page", e.pageX, e.pageY);
-          // console.log("Screen", e.screenX, e.screenY);
-        }}
-      >
+      <div className="game-status-bar">
         <div className="game-logo-container">
           <img
             className="game-logo"

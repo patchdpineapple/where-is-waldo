@@ -1,21 +1,18 @@
 import React, { useEffect } from "react";
 import "./Timer.css";
 
-function Timer({ time, timerOn,startTimer, pauseTimer }) {
+function Timer({ time, timerOn, startTimer, pauseTimer }) {
+  //timer component
+
   useEffect(() => {
-   if(timerOn) {
-   startTimer();
-   }else {
-    pauseTimer();
-   }
+    //starts/stops the timer depending on state of timer
+    if (timerOn) {
+      startTimer();
+    } else {
+      pauseTimer();
+    }
   }, [timerOn]);
-
  
-
-
-
-  
-  /* render */
   return (
     <div className="Timer">
       <span id="time">{time}</span>
