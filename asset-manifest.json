@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/where-is-waldo/static/css/main.649c45e6.chunk.css",
+    "main.js": "/where-is-waldo/static/js/main.930c44b5.chunk.js",
+    "main.js.map": "/where-is-waldo/static/js/main.930c44b5.chunk.js.map",
+    "runtime-main.js": "/where-is-waldo/static/js/runtime-main.a8886a0f.js",
+    "runtime-main.js.map": "/where-is-waldo/static/js/runtime-main.a8886a0f.js.map",
+    "static/js/2.4eefd822.chunk.js": "/where-is-waldo/static/js/2.4eefd822.chunk.js",
+    "static/js/2.4eefd822.chunk.js.map": "/where-is-waldo/static/js/2.4eefd822.chunk.js.map",
+    "index.html": "/where-is-waldo/index.html",
+    "static/css/main.649c45e6.chunk.css.map": "/where-is-waldo/static/css/main.649c45e6.chunk.css.map",
+    "static/js/2.4eefd822.chunk.js.LICENSE.txt": "/where-is-waldo/static/js/2.4eefd822.chunk.js.LICENSE.txt",
+    "static/media/waldo_beach.8b871ac1.jpg": "/where-is-waldo/static/media/waldo_beach.8b871ac1.jpg",
+    "static/media/waldo_face.1b4d2b8a.png": "/where-is-waldo/static/media/waldo_face.1b4d2b8a.png",
+    "static/media/waldo_logo.e6ffa93d.png": "/where-is-waldo/static/media/waldo_logo.e6ffa93d.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a8886a0f.js",
+    "static/js/2.4eefd822.chunk.js",
+    "static/css/main.649c45e6.chunk.css",
+    "static/js/main.930c44b5.chunk.js"
+  ]
+}
