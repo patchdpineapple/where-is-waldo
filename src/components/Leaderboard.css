@@ -12,7 +12,7 @@
 
 .msg-top-score {
     font-family: "Acme", Arial;
-    font-size: 10vw;
+    font-size: 8vw;
     margin: 5px;
     color: #d8202c;
     text-shadow: 0 10px 1px #0582c5;
@@ -30,7 +30,7 @@
 }
 
 .msg-name {
-    min-width: 5vw;
+    min-width: 10vw;
     max-width: 20vw;
     overflow: hidden;
 }

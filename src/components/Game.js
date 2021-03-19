@@ -25,6 +25,15 @@ function Complete({ onPlayAgain, yourTime, totalTime, toggleShowGame, toggleShow
     toggleShowLeaderboard();
   }
 
+  const recordScore = async (name, time, total) => {
+
+    await db.collection('highscores').add({
+      name: name,
+      time: time,
+      total: total
+    });
+  }
+
   return (
     <div className="Complete">
       <div className="complete-container">
@@ -33,15 +42,17 @@ function Complete({ onPlayAgain, yourTime, totalTime, toggleShowGame, toggleShow
         <p className="msg-total">{`time in ms: ${totalTime}`}</p>
         <form onSubmit={()=>{
           console.log(`submitted score of ${document.getElementById("playername").value}`);
-          highscores.push({
-            name: document.getElementById("playername").value,
-            time: yourTime,
-            total: totalTime
-          })
+          let getName = document.getElementById("playername").value;
+          // highscores.push({
+          //   name: document.getElementById("playername").value,
+          //   time: yourTime,
+          //   total: totalTime
+          // })
+          recordScore(getName, yourTime, totalTime);
           handleShowLeaderboard();
         }}>
   <label htmlFor="playername" >Input name &nbsp;</label>
-          <input type="text" id="playername" name="playername" placeholder="name" maxlength="25" required/>
+          <input type="text" id="playername" name="playername" placeholder="name" maxLength="25" required/>
           <button type="submit" className="btn btn-play-again">
             Submit
           </button>
@@ -74,7 +85,6 @@ function Popup({
   onClosePopup,
   handleFoundCharacter,
   found,
-  toggleShowFindAgain,
 }) {
   //this component will show when the user clicks on the image
   let marginTop = 100 + 1;
@@ -236,8 +246,10 @@ function Game({ handleReturnToTitle, toggleShowGame, toggleShowLeaderboard }) {
   const handleCompleteGame = () => {
     //checks if all characters are found and display game over screen
     if (foundWaldo && foundOdlaw && foundWizard) {
-      return true;
-    } else return false;
+      setTimerActive(false);
+      clearTimeout(timeoutFindAgain);
+      setShowComplete(true);
+    } 
   };
 
   const handleFoundCharacter = (charName) => {
@@ -321,12 +333,7 @@ function Game({ handleReturnToTitle, toggleShowGame, toggleShowLeaderboard }) {
   /* use effect */
   useEffect(() => {
     //checks if game is complete
-    if (handleCompleteGame()) {
-      setTimerActive(false);
-      clearTimeout(timeoutFindAgain);
-      setShowComplete(true);
-    }
-   
+    handleCompleteGame();
   });
 
   return (
@@ -400,7 +407,6 @@ function Game({ handleReturnToTitle, toggleShowGame, toggleShowLeaderboard }) {
             coordsY={coords.y}
             onClosePopup={toggleShowPopup}
             handleFoundCharacter={handleFoundCharacter}
-            handleCompleteGame={handleCompleteGame}
             found={{
               Waldo: foundWaldo,
               Odlaw: foundOdlaw,

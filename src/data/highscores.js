@@ -30,7 +30,7 @@ const highscores = [
     },
     {
         name: "Maxter",
-        time: "00:7:00",
+        time: "00:07:00",
         total: 7000
     },
     {
